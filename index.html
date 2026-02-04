@@ -269,7 +269,7 @@
             <h2 class="section-title">Book Your Service Appointment</h2>
             <p class="section-subtitle">Schedule your car service online - We'll get back to you shortly</p>
             <div class="booking-wrapper">
-                <form class="booking-form" id="bookingForm" action = "https://formspree.io/f/maqbkbyz" method = "POST">
+                <form class="booking-form" id="bookingForm" action = "https://formspree.io/f/maqbkbyz" method = "POST" onsubmit="handleFormSubmit(event)">
                     <div class="form-row">
                         <div class="form-group">
                             <label for="customerName">Full Name *</label>
