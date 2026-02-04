@@ -140,3 +140,24 @@ document.querySelectorAll(
 // === Console Branding ===
 console.log('%cVasundhra Motors', 'font-size:22px;color:#0066B3;font-weight:bold');
 console.log('✓ Website loaded successfully');
+
+function handleFormSubmit(e) {
+    e.preventDefault();
+
+    const form = e.target;
+
+    fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+    }).then(response => {
+        if (response.ok) {
+            form.reset();
+            showSuccessModal();   // 👈 THIS shows the thank-you
+        } else {
+            alert("Something went wrong. Please try again.");
+        }
+    }).catch(() => {
+        alert("Network error. Please try again.");
+    });
+}
