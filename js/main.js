@@ -1,5 +1,5 @@
 // ========================================
-// Vasundhra Motors - Main JavaScript (FIXED)
+// Vasundhra Motors - Main JavaScript (FINAL)
 // ========================================
 
 // === Configuration ===
@@ -35,8 +35,7 @@ mobileMenuToggle?.addEventListener('click', () => {
 document.querySelectorAll('.nav-link').forEach(link => {
     link.addEventListener('click', () => {
         navMenu.classList.remove('active');
-        const icon = mobileMenuToggle?.querySelector('i');
-        icon?.classList.replace('fa-times', 'fa-bars');
+        mobileMenuToggle?.querySelector('i')?.classList.replace('fa-times', 'fa-bars');
     });
 });
 
@@ -80,7 +79,7 @@ if (dateInput) {
     dateInput.min = new Date().toISOString().split('T')[0];
 }
 
-// === Mobile Number Input Cleanup ===
+// === Mobile Number Cleanup ===
 document.getElementById('mobile')?.addEventListener('input', e => {
     e.target.value = e.target.value.replace(/\D/g, '').slice(0, 10);
 });
@@ -90,7 +89,7 @@ document.getElementById('registrationNumber')?.addEventListener('input', e => {
     e.target.value = e.target.value.toUpperCase();
 });
 
-// === Success Modal Helpers ===
+// === Success Modal ===
 window.showSuccessModal = function () {
     successModal?.classList.add('show');
     document.body.style.overflow = 'hidden';
@@ -137,27 +136,39 @@ document.querySelectorAll(
     observer.observe(el);
 });
 
-// === Console Branding ===
-console.log('%cVasundhra Motors', 'font-size:22px;color:#0066B3;font-weight:bold');
-console.log('✓ Website loaded successfully');
-
+// === Form Submission (Formspree – FREE, No Redirect, No CAPTCHA) ===
 function handleFormSubmit(e) {
     e.preventDefault();
 
     const form = e.target;
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = 'Submitting...';
 
     fetch(form.action, {
         method: "POST",
         body: new FormData(form),
         headers: { 'Accept': 'application/json' }
-    }).then(response => {
+    })
+    .then(response => {
         if (response.ok) {
             form.reset();
-            showSuccessModal();   // 👈 THIS shows the thank-you
+            showSuccessModal();
         } else {
-            alert("Something went wrong. Please try again.");
+            alert("Submission failed. Please try again.");
         }
-    }).catch(() => {
+    })
+    .catch(() => {
         alert("Network error. Please try again.");
+    })
+    .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
     });
 }
+
+// === Console Branding ===
+console.log('%cVasundhra Motors', 'font-size:22px;color:#0066B3;font-weight:bold');
+console.log('✓ Website loaded successfully');
